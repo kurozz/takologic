@@ -1,8 +1,10 @@
 Takologic v0.1
+
 A STM32F103C8 Based logic analyzer
 
 This project is still under development.
-Everything is release under GPLv3 unless other licenses are involved, such as STM Peripheral Libs.
+
+Everything is released under GPLv3 unless other licenses are involved, such as STM Peripheral Libs.
 
 Communication are through USART2 (pins A2 and A3) at 115200baud for now, USB is intended for newer versions.
 Channel 0~7 are pins B8~B15.
