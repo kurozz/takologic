@@ -1,9 +1,6 @@
 Takologic v0.1
 A STM32F103C8 Based logic analyzer
 
-Kuro
-kuro@lzzbr.com
-
 This project is still under development.
 Everything is release under GPLv3 unless other licenses are involved, such as STM Peripheral Libs.
 
