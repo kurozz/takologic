@@ -21,104 +21,19 @@
  *
  * Page:	http://hackaday.io/project/5742-takologic
  *
- * Last update: 15/05/2015
+ * Last update: 01/06/2015
  *
  ********************************************************************/
 
-#include <stm32f10x.h>
-#include <stm32f10x_conf.h>
-#include <stdbool.h>
-
-#include "sump.h"
-#include "timer.h"
-#include "uart.h"
-
-// Debug mode (UART at 9600 baud)
-//#define DEBUG
-
-// Firmware version
-#define VERSION "Takologic v0.1"
-
-// Sample buffer size
-#define SAMPLESIZE 10240
-#define MAX_SAMPLERATE 10000000
-
-// Sampling variables
-struct sampling {
-	uint8_t data[SAMPLESIZE];	// Sampling data buffer
-	uint16_t index;				// Sampling data buffer index
-	bool ongoing;				// True if there's a sampling ongoing
-	bool done;					// True if there's data to be sent
-} sampling;
-
-// Sampling configuration
-struct config {
-	uint32_t divider;			// Used to set the sampling time
-	uint32_t readCount;
-	uint32_t delayCount;
-} config;
-
-// Trigger configuration
-uint32_t serialTriggerBuffer;
-struct trigger {
-	uint32_t armed;
-	uint32_t mask;
-	uint32_t value;
-	uint32_t delay;
-	uint8_t level;
-	uint8_t channel;
-	bool serial;
-} trigger;
+#include "main.h"
 
 // Milliseconds counter
 volatile uint64_t millis = 0;
 
 // LED last state
-uint8_t led = 0;
+bool led = false;
 
-// System Ticker
-void SysTick_Handler() {
-	millis++;
-}
-
-void TIM3_IRQHandler() {
-	if (TIM_GetITStatus(TIM3, TIM_IT_CC1) != RESET) {
-		TIM_ClearITPendingBit(TIM3, TIM_IT_CC1);
-
-		if(trigger.armed != 0) {	// Wait for trigger
-			if(trigger.serial == false) {	// Parallel trigger
-				// Wait for trigger conditions being met
-				if((GPIOB->IDR & trigger.mask) == trigger.armed) {
-					sampling.data[sampling.index] = ( (GPIOB->IDR >> 8) & 0xFF );
-					sampling.index--;
-
-					trigger.armed = 0;
-				}
-			} else {	// Serial trigger
-				serialTriggerBuffer <<= 1;
-				serialTriggerBuffer |= ( (GPIOB->IDR >> (trigger.channel+8)) & 0x01 );
-
-				if((serialTriggerBuffer & trigger.mask) == trigger.armed) {
-					trigger.armed = 0;
-				}
-			}
-		} else if(trigger.delay == 0) {	// Already triggered, capture data
-			// Acquire data
-			sampling.data[sampling.index] = ( (GPIOB->IDR >> 8) & 0xFF );
-			sampling.index--;
-
-			// Check if end of sampling
-			if(sampling.index == 0) {
-				timerDisable();
-				sampling.ongoing = false;
-				sampling.done = true;
-			}
-		} else {	// Waiting for sampling delay after trigger
-			//Subtract a sampling time from the sampling delay
-			trigger.delay--;
-		}
-	}
-}
+bool read_16bit = false;
 
 // Configures the input and output pins
 void pinConfig();
@@ -129,8 +44,87 @@ void toggleLed();
 // Initializes sampling, trigger variables and the sampling timer
 void startSampling();
 
+// Does the sampling, should be called each sampling time
+void doSample();
+
 // Sends metadata to PC
 void sendMeta();
+
+// Reset variables to default values
+void resetVar();
+
+// System Ticker
+void SysTick_Handler() {
+	millis++;
+}
+
+void DMA1_Channel6_IRQHandler(void) {
+	if(DMA_GetITStatus(DMA1_IT_TC6)) {
+		DMA_Cmd(DMA1_Channel6, DISABLE);
+		DMA_DeInit(DMA1_Channel6);
+		DMA_ClearITPendingBit(DMA1_IT_GL6);
+
+		clockDisable();
+		sampling.ongoing = false;
+		sampling.done = true;
+	}
+}
+
+void EXTI0_IRQHandler() {
+	EXTI->PR = EXTI_Line0;
+
+	if(trigger.armed == 0) {	// Wait for trigger
+		// Capture data
+		if(flags.groups != 0xFF) {
+			sampling.data[sampling.index-1] = GPIOB->IDR & 0xFF;
+			sampling.index--;
+		}
+		sampling.data[sampling.index-1] = (GPIOB->IDR >> 8) & 0xFF;
+		sampling.index--;
+
+		// Check if end of sampling
+		if(sampling.index == 0) {
+			clockDisable();
+			sampling.ongoing = false;
+			sampling.done = true;
+		}
+	} else {	// Already triggered, capture data
+		// Wait for trigger conditions being met
+		if((GPIOB->IDR & trigger.mask) == trigger.armed) {
+			trigger.armed = 0;
+		}
+	}
+}
+
+void TIM3_IRQHandler() {
+	TIM3->SR = (uint16_t)~TIM_IT_CC1;
+
+	uint16_t data = GPIOB->IDR;
+
+	if(trigger.armed == 0) {	// Wait for trigger
+		// Capture data
+		if(read_16bit == false) {
+			sampling.index--;
+			sampling.data[sampling.index] = data & 0xFF;
+		} else {
+			sampling.data[sampling.index-1] = (data >> 8) & 0xFF;
+			sampling.data[sampling.index-2] = data & 0xFF;
+			sampling.index -= 2;
+		}
+
+		// Check if end of sampling
+		if(sampling.index == 0) {
+			clockDisable();
+			sampling.ongoing = false;
+			sampling.done = true;
+		}
+	} else {	// Already triggered, capture data
+		// Wait for trigger conditions being met
+		if((data & trigger.mask) == trigger.armed) {
+			trigger.armed = 0;
+		}
+	}
+}
 
 int main() {
 	uint64_t lastMillis = 0;
@@ -138,28 +132,11 @@ int main() {
 	// Configure SysTick to 1ms
 	SysTick_Config(SystemCoreClock / 1000);
 
-
 	pinConfig();
 
-#ifdef DEBUG
-	uartInit(9600);
-#else
 	uartInit(115200);
-#endif
 
-	sampling.index = 0;
-	sampling.ongoing = false;
-	sampling.done = false;
-
-	trigger.mask = 0x0000;
-	trigger.value = 0x0000;
-	trigger.delay = 0;
-	trigger.serial = false;
-	trigger.channel = 0;
-
-	config.divider = 1;
-	config.readCount = SAMPLESIZE;
-	config.delayCount = SAMPLESIZE;
+	resetVar();
 
 	// Main loop
 	while(true) {
@@ -180,8 +157,10 @@ int main() {
 			GPIO_SetBits(GPIOC, GPIO_Pin_13);
 
 			// Send data
-			for(sampling.index = 0; sampling.index < config.readCount; sampling.index++) {
+			//for(sampling.index = 0; sampling.index < config.readCount; sampling.index++) {
+			for(sampling.index = 0; sampling.index < SAMPLESIZE; sampling.index++) {
 				uartPutc(sampling.data[sampling.index]);
+				//uartPutc((sampling.data[sampling.index] >> 8) & 0xFF);
 			}
 		}
 
@@ -194,8 +173,12 @@ int main() {
 			cmd = uartGetc();
 			long_data[0] = 0;
 
-			switch (cmd) {
-				case SUMP_RESET:			// Reset command (do nothing for now)
+			switch(cmd) {
+				case SUMP_RESET:			// Reset command
+					resetCount++;
+					if(resetCount == 5) {
+						resetVar();
+					}
 					break;
 
 				case SUMP_ARM:
@@ -271,6 +254,16 @@ int main() {
 						trigger.serial = false;
 					}
 
+					// Start?
+					if((long_data[4] & 0x08) == 0x08) {
+						trigger.start = true;
+					} else {
+						trigger.start = false;
+					}
+
+					// Level
+					trigger.level = (long_data[2] & 0x03);
+
 					// Channel (channel 0 only, for now)
 					trigger.channel = (long_data[4] & 0x01);
 					trigger.channel <<= 1;
@@ -292,6 +285,41 @@ int main() {
 					config.delayCount |= long_data[3];
 					config.delayCount = config.delayCount*4;
 					break;
+
+				case SUMP_SET_FLAGS:
+					// Demux?
+					if(long_data[1] & 0x01) {
+						flags.demux = true;
+					} else {
+						flags.demux = false;
+					}
+
+					// Filter?
+					if(long_data[1] & 0x02) {
+						flags.filter = true;
+					} else {
+						flags.filter = false;
+					}
+
+					// External clock?
+					if(long_data[1] & 0x40) {
+						flags.external = true;
+					} else {
+						flags.external = false;
+					}
+
+					// Inverted clock?
+					if(long_data[1] & 0x80) {
+						flags.inverted = true;
+					} else {
+						flags.inverted = false;
+					}
+
+					// Configure groups
+					flags.groups = (long_data[1] >> 2);
+					flags.groups &= 0x0F;
+
+					break;
 			}
 		}
 	}
@@ -306,15 +334,8 @@ void pinConfig() {
 	//Enable GPIOB and GPIOC clocks
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB | RCC_APB2Periph_GPIOC, ENABLE);
 
-	//GPIOB pin 8 to 15 as floating inputs, 50MHz
-	GPIO_InitStructure.GPIO_Pin = 	GPIO_Pin_8 |
-									GPIO_Pin_9 |
-									GPIO_Pin_10 |
-									GPIO_Pin_11 |
-									GPIO_Pin_12 |
-									GPIO_Pin_13 |
-									GPIO_Pin_14 |
-									GPIO_Pin_15;
+	//GPIOB as floating inputs, 50MHz
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_All;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IN_FLOATING;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOB, &GPIO_InitStructure);
@@ -342,24 +363,69 @@ void toggleLed() {
 
 // Start the sampling procedure
 void startSampling() {
-    // Configure the timer
-    timerConfig(100000000/config.divider);
-
     //Arm the trigger
     trigger.armed = (trigger.value & trigger.mask);
     if(trigger.serial == true) {
     	trigger.mask >>= 8;
     	trigger.armed >>= 8;
-    	serialTriggerBuffer = 0;
     }
 
     // Set sampling flag
     sampling.ongoing = true;
-    sampling.index = (config.delayCount - 1);
+    sampling.index = config.readCount;
+
+    if(flags.groups == 0x0C) {
+    	read_16bit = true;
+    }
 
     // Enable Timer
-    timerEnable();
+    if(flags.external == false) {
+    	clockConfig(100000000/config.divider, INTERNAL);
+    } else if(flags.inverted == false) {
+    	clockConfig(100000000/config.divider, EXT_RISING);
+    } else {
+    	clockConfig(100000000/config.divider, EXT_FALLING);
+    }
 }
+
+// Old sampling
+/*void doSample() {
+	 if(trigger.armed != 0) {	// Wait for trigger
+		if(trigger.serial == false) {	// Parallel trigger
+			// Wait for trigger conditions being met
+			if((GPIOB->IDR & trigger.mask) == trigger.armed) {
+				trigger.armed = 0;
+			}
+		} else {	// Serial trigger
+			serialTriggerBuffer <<= 1;
+			serialTriggerBuffer |= ( (GPIOB->IDR >> (trigger.channel+8)) & 0x01 );
+
+			if((serialTriggerBuffer & trigger.mask) == trigger.armed) {
+				trigger.armed = 0;
+			}
+		}
+	} else if(trigger.delay == 0) {	// Already triggered, capture data
+		if(flags.groups == 0xFF) {
+			// Both channels
+
+		} else {
+			// Single channel
+			sampling.data[sampling.index] = ( (GPIOB->IDR >> 8) & 0xFF );
+		}
+
+		sampling.index--;
+
+		// Check if end of sampling
+		if(sampling.index == 0) {
+			clockDisable();
+			sampling.ongoing = false;
+			sampling.done = true;
+		}
+	} else {	// Waiting for sampling delay after trigger
+		//Subtract a sampling time from the sampling delay
+		trigger.delay--;
+	}
+}*/
 
 // Send metadata to client
 void sendMeta() {
@@ -372,9 +438,37 @@ void sendMeta() {
 	// Maximum sample rate (Hz)
 	sump_sendmeta_uint32(0x23, MAX_SAMPLERATE);
 	// Number of usable probes (short)
-	sump_sendmeta_uint8(0x40, 0x08);
+	sump_sendmeta_uint8(0x40, 0x10);
 	// Protocol version (short)
 	sump_sendmeta_uint8(0x41, 0x02);
 	// End of meta data
 	uartPutc(0x00);
+}
+
+// Reset variables to default values
+void resetVar() {
+	sampling.index		= 0;
+	sampling.ongoing	= false;
+	sampling.done		= false;
+
+	trigger.armed		= 0;
+	trigger.mask		= 0;
+	trigger.value		= 0;
+	trigger.delay		= 0;
+	trigger.level		= 0;
+	trigger.serial		= false;
+	trigger.channel		= 0;
+	trigger.start		= false;
+
+	config.divider		= 1;
+	config.readCount	= SAMPLESIZE;
+	config.delayCount	= SAMPLESIZE;
+
+	flags.demux			= false;
+	flags.filter		= false;
+	flags.groups		= 0;
+	flags.external		= false;
+	flags.inverted		= false;
+
+	resetCount 			= 0;
 }

@@ -21,19 +21,16 @@
  *
  * Page:	http://hackaday.io/project/5742-takologic
  *
- * Last update: 15/05/2015
+ * Last update: 01/06/2015
  *
  ********************************************************************/
 
-#ifndef _TIMER_H_
-#define _TIMER_H_
+#ifndef _DMA_H_
+#define _DMA_H_
 
 #include <stm32f10x_conf.h>
+#include <stdbool.h>
 
-void timerConfig(uint32_t freq);
-
-void timerDisable();
-
-void timerEnable();
+void dmaConfig(uint32_t address, uint16_t size, bool mode_8mhz, bool mode_16bit);
 
 #endif //_TIMER_H_

@@ -11,18 +11,13 @@
 <folder appearance="1" expanded="2">
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
-<part id="1"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor id="org.coocox.builder.ui.editors.repository.RepositoryBrowser" name="Repository" partName="Repository" title="Repository" tooltip="Repository" workbook="DefaultEditorWorkbook">
-<input factoryID="org.coocox.component.ui.editors.repository.RepositoryElementFactory">&#x0A;<subPage horizontalPosition="0" selectedItemId="0" subPageIndex="0" verticalPosition="0"/>
-</input>
-</editor>
 <editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" partName="main.c" path="G:/Programacao/CoIDE/takologic/src/main.c" title="main.c" tooltip="G:/Programacao/CoIDE/takologic/src/main.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/takologic/src/main.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="842" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="973" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
@@ -30,11 +25,14 @@
 <viewState CommonNavigator.LINKING_ENABLED="0" horizontalPosition="0" org.eclipse.ui.navigator.resources.workingSets.showTopLevelWorkingSets="0" verticalPosition="0">
 <expanded>
 <element path="/takologic"/>
+<element path="/takologic/cmsis"/>
+<element path="/takologic/cmsis_boot"/>
+<element path="/takologic/cmsis_boot/startup"/>
 <element path="/takologic/inc"/>
 <element path="/takologic/src"/>
 </expanded>
 <selection>
-<element path="/takologic/src/main.c"/>
+<element path="/takologic/src/dma.c"/>
 </selection>
 </viewState>
 </view>
@@ -49,6 +47,9 @@
 </view>
 <view id="org.eclipse.ui.console.ConsoleView" partName="Console">
 <viewState/>
+</view>
+<view id="org.eclipse.cdt.dsf.debug.ui.disassembly.view" partName="Disassembly">
+<viewState disassembly.syncActiveContext="true" disassembly.trackExpression="false"/>
 </view>
 <view id="org.eclipse.debug.ui.VariableView" partName="Variables">
 <viewState/>
@@ -94,6 +95,7 @@
 <view id="org.coocox.builder.ui.views.ProjectView"/>
 <view id="org.coocox.component.ui.Help"/>
 <view id="org.eclipse.ui.views.ContentOutline"/>
+<view id="org.eclipse.ui.console.ConsoleView"/>
 <fastViewBars/>
 <layout>
 <mainWindow>
@@ -141,9 +143,14 @@
 </folder>
 </info>
 </mainWindow>
-<hiddenWindow height="424" width="765" x="1921" y="601">
-<view id="org.eclipse.ui.console.ConsoleView"/>
-</hiddenWindow>
+<detachedWindow height="424" width="765" x="1921" y="601">
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
+<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
+<part id="0"/>
+</presentation>
+</folder>
+</detachedWindow>
 </layout>
 </perspective>
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
@@ -158,43 +165,44 @@
 <alwaysOnActionSet id="org.coocox.welcome.ui.actionSet"/>
 <alwaysOnActionSet id="org.eclipse.debug.ui.breakpointActionSet"/>
 <alwaysOnActionSet id="org.eclipse.debug.ui.debugActionSet"/>
-<hide_menu_item_id id="org.coocox.builder.ui.newFile"/>
 <hide_menu_item_id id="org.coocox.builder.ui.newFolder"/>
-<hide_menu_item_id id="org.coocox.builder.ui.openFile"/>
+<hide_menu_item_id id="org.coocox.welcome.ui.action.repository"/>
 <hide_menu_item_id id="org.eclipse.ui.file.save"/>
-<hide_menu_item_id id="org.eclipse.ui.file.saveAs"/>
+<hide_menu_item_id id="org.eclipse.jdt.ui.refactoring.menu"/>
 <hide_menu_item_id id="org.eclipse.ui.file.saveAll"/>
+<hide_menu_item_id id="org.coocox.builder.ui.rebuild"/>
+<hide_menu_item_id id="org.coocox.builder.ui.openFile"/>
+<hide_menu_item_id id="org.eclipse.ui.file.saveAs"/>
 <hide_menu_item_id id="org.coocox.builder.rcp.projectMenu"/>
 <hide_menu_item_id id="org.coocox.builder.rcp.flashMenu"/>
-<hide_menu_item_id id="org.coocox.builder.ui.showHelpViewAction"/>
-<hide_menu_item_id id="org.coocox.component.ui.ShowRepositoryAction"/>
 <hide_menu_item_id id="org.coocox.builder.ui.debug"/>
-<hide_menu_item_id id="org.coocox.builder.ui.build"/>
-<hide_menu_item_id id="org.coocox.builder.ui.rebuild"/>
-<hide_menu_item_id id="org.eclipse.jdt.ui.refactoring.menu"/>
-<hide_menu_item_id id="org.eclipse.jdt.ui.source.menu"/>
+<hide_menu_item_id id="org.coocox.builder.ui.showHelpViewAction"/>
+<hide_menu_item_id id="org.coocox.builder.ui.newFile"/>
 <hide_menu_item_id id="org.coocox.builder.ui.actions.ConfigurationAction"/>
+<hide_menu_item_id id="org.eclipse.jdt.ui.source.menu"/>
+<hide_menu_item_id id="org.coocox.builder.ui.build"/>
 <hide_menu_item_id id="org.coocox.welcome.ui.action.welcome"/>
-<hide_menu_item_id id="org.coocox.welcome.ui.action.repository"/>
-<hide_toolbar_item_id id="org.coocox.builder.ui.newProject"/>
-<hide_toolbar_item_id id="org.coocox.builder.ui.newFile"/>
-<hide_toolbar_item_id id="org.eclipse.ui.file.save"/>
-<hide_toolbar_item_id id="org.coocox.component.ui.ShowRepositoryAction"/>
-<hide_toolbar_item_id id="org.coocox.builder.ui.build"/>
-<hide_toolbar_item_id id="org.coocox.builder.ui.rebuild"/>
-<hide_toolbar_item_id id="org.coocox.builder.ui.debug"/>
-<hide_toolbar_item_id id="org.coocox.codebugger.configuration.coideProgramDownloadAction"/>
-<hide_toolbar_item_id id="org.coocox.codebugger.configuration.coideFlashEraseAction"/>
+<hide_menu_item_id id="org.coocox.component.ui.ShowRepositoryAction"/>
 <hide_toolbar_item_id id="org.coocox.builder.ui.actions.TargetManageAction"/>
-<hide_toolbar_item_id id="org.coocox.builder.ui.actions.ConfigurationAction"/>
-<hide_toolbar_item_id id="org.coocox.welcome.ui.action.welcome"/>
+<hide_toolbar_item_id id="org.coocox.builder.ui.newProject"/>
 <hide_toolbar_item_id id="org.coocox.welcome.ui.action.repository"/>
+<hide_toolbar_item_id id="org.eclipse.ui.file.save"/>
+<hide_toolbar_item_id id="org.coocox.builder.ui.rebuild"/>
+<hide_toolbar_item_id id="org.coocox.codebugger.configuration.coideFlashEraseAction"/>
+<hide_toolbar_item_id id="org.coocox.builder.ui.debug"/>
+<hide_toolbar_item_id id="org.coocox.builder.ui.newFile"/>
+<hide_toolbar_item_id id="org.coocox.builder.ui.actions.ConfigurationAction"/>
 <hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
+<hide_toolbar_item_id id="org.coocox.builder.ui.build"/>
+<hide_toolbar_item_id id="org.coocox.welcome.ui.action.welcome"/>
+<hide_toolbar_item_id id="org.coocox.codebugger.configuration.coideProgramDownloadAction"/>
+<hide_toolbar_item_id id="org.coocox.component.ui.ShowRepositoryAction"/>
 <view id="org.eclipse.ui.console.ConsoleView"/>
 <view id="org.eclipse.debug.ui.DebugView"/>
 <view id="org.coocox.codebugger.trace.ui.traceview"/>
 <view id="org.eclipse.debug.ui.VariableView"/>
 <view id="org.coocox.builder.ui.views.ProjectView"/>
+<view id="org.eclipse.cdt.dsf.debug.ui.disassembly.view"/>
 <fastViewBars/>
 <viewLayoutRec closeable="false" id="org.eclipse.debug.ui.DebugView"/>
 <layout>&#x0A;<mainWindow>&#x0A;<info folder="true" part="org.eclipse.ui.internal.ViewStack@1662dfd">&#x0A;<folder activePageID="org.coocox.builder.ui.views.ProjectView" appearance="2" expanded="2">&#x0A;<page content="org.coocox.builder.ui.views.ProjectView" label="Project"/>
@@ -206,7 +214,7 @@
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@a8660c" ratio="0.69926393" ratioLeft="665" ratioRight="286" relationship="4" relative="org.eclipse.ui.internal.ViewStack@1662dfd">&#x0A;<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@a8660c" ratio="0.69926393" ratioLeft="665" ratioRight="286" relationship="4" relative="org.eclipse.ui.internal.ViewStack@1662dfd">&#x0A;<folder activePageID="org.eclipse.debug.ui.DebugView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
 <page content="org.eclipse.debug.ui.BreakpointView" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
@@ -224,11 +232,12 @@
 </presentation>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@7cb05e" ratio="0.75" ratioLeft="1434" ratioRight="478" relationship="2" relative="org.eclipse.ui.internal.ViewStack@1662dfd">&#x0A;<folder appearance="2" expanded="2">&#x0A;<page content="org.eclipse.cdt.dsf.debug.ui.disassembly.view" label="LabelNotFound"/>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@7cb05e" ratio="0.75" ratioLeft="1434" ratioRight="478" relationship="2" relative="org.eclipse.ui.internal.ViewStack@1662dfd">&#x0A;<folder activePageID="org.eclipse.cdt.dsf.debug.ui.disassembly.view" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.cdt.dsf.debug.ui.disassembly.view" label="Disassembly"/>
 <page content="org.eclipse.ui.views.ContentOutline" label="LabelNotFound"/>
 <page content="org.eclipse.debug.ui.RegisterView" label="LabelNotFound"/>
 <page content="org.coocox.coassistant.view.CoAssistantView_debug" label="LabelNotFound"/>
-<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory"/>
+<presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
+</presentation>
 </folder>
 </info>
 <info part="org.eclipse.ui.editorss" ratio="0.29986054" ratioLeft="430" ratioRight="1004" relationship="2" relative="org.eclipse.ui.internal.ViewStack@1662dfd"/>
@@ -239,164 +248,172 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/main.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/src/uart.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/inc/uart.h"/>
-<editor factoryID="org.coocox.component.ui.editors.repository.RepositoryElementFactory" id="org.coocox.builder.ui.editors.repository.RepositoryBrowser">
-<subPage horizontalPosition="0" selectedItemId="0" subPageIndex="0" verticalPosition="0"/>
-</editor>
-<editor factoryID="org.coocox.builder.ui.persistent.PersistentElementFactory" id="org.coocox.builder.ui.editors.ConfigEditor">
-<org.coocox.builder.ui.editors.ConfigEditor/>
-</editor>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/src/main.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/cmsis_boot/startup/startup_stm32f10x_md.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/src/clock.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/src/dma.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/inc/main.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/src/clock.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/inc/main.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/src/dma.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/inc/dma.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/cmsis_boot/startup/startup_stm32f10x_md.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/src/sump.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/src/timer.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/src/uart.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/inc/uart.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/inc/timer.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/inc/sump.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/inc/clock.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/cmsis_boot/stm32f10x_conf.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/src/clock.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/takologic/src/dma.c"/>
 </editors>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="3591" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="3969" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="5020" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="5129" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="4931" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="3591" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="4931" y="21"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="9120" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="9531" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="2206" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="3056" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="3591" y="0"/>
-</item>
 <item historyLabel="main.c" index="0">
 <position/>
 </item>
 <item historyLabel="main.c" index="0">
-<position info="not_deleted" x="1811" y="0"/>
+<position info="not_deleted" x="2805" y="0"/>
 </item>
 <item historyLabel="main.c" index="0">
-<position info="not_deleted" x="3809" y="0"/>
+<position info="not_deleted" x="2991" y="0"/>
+</item>
+<item historyLabel="startup_stm32f10x_md.c" index="1">
+<position info="not_deleted" x="12874" y="0"/>
+</item>
+<item historyLabel="clock.c" index="2">
+<position info="not_deleted" x="6743" y="0"/>
 </item>
 <item historyLabel="main.c" index="0">
-<position info="not_deleted" x="4494" y="83"/>
+<position info="not_deleted" x="2639" y="0"/>
+</item>
+<item historyLabel="clock.c" index="2">
+<position info="not_deleted" x="6743" y="0"/>
+</item>
+<item historyLabel="dma.c" index="3">
+<position info="not_deleted" x="2806" y="254"/>
 </item>
 <item historyLabel="main.c" index="0">
-<position info="not_deleted" x="4473" y="0"/>
+<position info="not_deleted" x="2639" y="0"/>
+</item>
+<item historyLabel="clock.c" index="2">
+<position info="not_deleted" x="6273" y="0"/>
+</item>
+<item historyLabel="main.h" index="4">
+<position info="not_deleted" x="1613" y="1"/>
 </item>
 <item historyLabel="main.c" index="0">
-<position info="not_deleted" x="4494" y="83"/>
+<position info="not_deleted" x="2925" y="0"/>
+</item>
+<item historyLabel="main.h" index="4">
+<position info="not_deleted" x="1613" y="1"/>
 </item>
 <item historyLabel="main.c" index="0">
-<position info="not_deleted" x="7527" y="0"/>
+<position info="not_deleted" x="2925" y="0"/>
+</item>
+<item historyLabel="clock.c" index="5">
+<position info="not_deleted" x="6395" y="0"/>
 </item>
 <item historyLabel="main.c" index="0">
-<position info="not_deleted" x="8745" y="44"/>
+<position info="not_deleted" x="2989" y="0"/>
+</item>
+<item historyLabel="main.h" index="6">
+<position info="not_deleted" x="1613" y="1"/>
+</item>
+<item historyLabel="clock.c" index="5">
+<position info="not_deleted" x="4027" y="0"/>
 </item>
 <item historyLabel="main.c" index="0">
-<position info="not_deleted" x="8691" y="0"/>
+<position info="not_deleted" x="2989" y="0"/>
+</item>
+<item historyLabel="dma.c" index="7">
+<position info="not_deleted" x="2806" y="254"/>
+</item>
+<item historyLabel="dma.h" index="8">
+<position info="not_deleted" x="1221" y="0"/>
+</item>
+<item historyLabel="clock.c" index="5">
+<position info="not_deleted" x="2181" y="0"/>
+</item>
+<item historyLabel="dma.c" index="7">
+<position info="not_deleted" x="2806" y="254"/>
+</item>
+<item historyLabel="dma.h" index="8">
+<position info="not_deleted" x="1221" y="0"/>
+</item>
+<item historyLabel="startup_stm32f10x_md.c" index="9">
+<position/>
+</item>
+<item historyLabel="dma.h" index="8">
+<position info="not_deleted" x="1221" y="0"/>
+</item>
+<item historyLabel="dma.c" index="7">
+<position info="not_deleted" x="2806" y="254"/>
+</item>
+<item historyLabel="main.h" index="6">
+<position info="not_deleted" x="963" y="10"/>
+</item>
+<item historyLabel="clock.c" index="5">
+<position info="not_deleted" x="1026" y="0"/>
+</item>
+<item historyLabel="dma.c" index="7">
+<position info="not_deleted" x="973" y="0"/>
+</item>
+<item historyLabel="dma.h" index="8">
+<position info="not_deleted" x="973" y="0"/>
 </item>
 <item historyLabel="main.c" index="0">
-<position info="not_deleted" x="9020" y="30"/>
+<position info="not_deleted" x="973" y="0"/>
+</item>
+<item historyLabel="main.h" index="6">
+<position info="not_deleted" x="977" y="0"/>
 </item>
 <item historyLabel="main.c" index="0">
-<position info="not_deleted" x="8812" y="0"/>
+<position info="not_deleted" x="973" y="0"/>
 </item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="7251" y="51"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="1126" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="9120" y="18"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="1263" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
-<position info="not_deleted" x="3869" y="0"/>
-</item>
-<item historyLabel="uart.h" index="2">
-<position info="not_deleted" x="113" y="0"/>
-</item>
-<item historyLabel="uart.c" index="1">
-<position info="not_deleted" x="65" y="0"/>
-</item>
-<item historyLabel="uart.h" index="2">
-<position info="not_deleted" x="113" y="0"/>
-</item>
-<item historyLabel="main.c" index="0">
+<item historyLabel="sump.c" index="10">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="Repository" index="3"/>
-<item historyLabel="Configuration" index="4"/>
-<item historyLabel="Repository" index="3"/>
-<item historyLabel="main.c" index="5">
-<position info="not_deleted" x="0" y="1049"/>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="973" y="0"/>
 </item>
-<item historyLabel="sump.c" index="6">
-<position info="not_deleted" x="1049" y="0"/>
-</item>
-<item historyLabel="timer.c" index="7">
-<position info="not_deleted" x="1049" y="0"/>
-</item>
-<item historyLabel="uart.c" index="8">
-<position info="not_deleted" x="1049" y="0"/>
-</item>
-<item historyLabel="sump.c" index="6">
-<position info="not_deleted" x="1049" y="0"/>
-</item>
-<item historyLabel="uart.c" index="8">
-<position info="not_deleted" x="1049" y="0"/>
-</item>
-<item historyLabel="main.c" index="5">
-<position info="not_deleted" x="0" y="1049"/>
-</item>
-<item historyLabel="uart.h" index="9">
-<position info="not_deleted" x="1049" y="0"/>
-</item>
-<item historyLabel="main.c" index="5">
-<position info="not_deleted" x="0" y="1049"/>
-</item>
-<item historyLabel="timer.h" index="10">
-<position info="not_deleted" x="1049" y="0"/>
-</item>
-<item historyLabel="main.c" index="5">
-<position info="not_deleted" x="0" y="1049"/>
-</item>
-<item historyLabel="sump.h" index="11">
-<position info="not_deleted" x="1049" y="0"/>
-</item>
-<item historyLabel="main.c" index="5">
-<position info="not_deleted" x="0" y="1049"/>
-</item>
-<item historyLabel="Repository" index="3"/>
-<item active="true" historyLabel="main.c" index="5">
+<item historyLabel="uart.c" index="11">
 <position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="973" y="0"/>
+</item>
+<item historyLabel="clock.h" index="12">
+<position info="not_deleted" x="973" y="0"/>
+</item>
+<item historyLabel="startup_stm32f10x_md.c" index="9">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="clock.h" index="12">
+<position info="not_deleted" x="973" y="0"/>
+</item>
+<item historyLabel="stm32f10x_conf.h" index="13">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="clock.h" index="12">
+<position info="not_deleted" x="973" y="0"/>
+</item>
+<item historyLabel="dma.h" index="8">
+<position info="not_deleted" x="973" y="0"/>
+</item>
+<item historyLabel="clock.h" index="12">
+<position info="not_deleted" x="973" y="0"/>
+</item>
+<item historyLabel="main.c" index="0">
+<position info="not_deleted" x="973" y="0"/>
+</item>
+<item historyLabel="clock.c" index="14">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="dma.c" index="15">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="clock.c" index="14">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item active="true" historyLabel="main.c" index="0">
+<position info="not_deleted" x="973" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -405,50 +422,51 @@
 <actionBarAdvisor/>
 </window>
 <mruList>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" tooltip="takologic/src/main.c">
-<persistable path="/takologic/src/main.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="dma.c" tooltip="takologic/src/dma.c">
+<persistable path="/takologic/src/dma.c"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="sump.h" tooltip="takologic/inc/sump.h">
-<persistable path="/takologic/inc/sump.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="clock.c" tooltip="takologic/src/clock.c">
+<persistable path="/takologic/src/clock.c"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="timer.h" tooltip="takologic/inc/timer.h">
-<persistable path="/takologic/inc/timer.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="stm32f10x_conf.h" tooltip="takologic/cmsis_boot/stm32f10x_conf.h">
+<persistable path="/takologic/cmsis_boot/stm32f10x_conf.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="uart.h" tooltip="takologic/inc/uart.h">
-<persistable path="/takologic/inc/uart.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="startup_stm32f10x_md.c" tooltip="takologic/cmsis_boot/startup/startup_stm32f10x_md.c">
+<persistable path="/takologic/cmsis_boot/startup/startup_stm32f10x_md.c"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="clock.h" tooltip="takologic/inc/clock.h">
+<persistable path="/takologic/inc/clock.h"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="uart.c" tooltip="takologic/src/uart.c">
 <persistable path="/takologic/src/uart.c"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="timer.c" tooltip="takologic/src/timer.c">
-<persistable path="/takologic/src/timer.c"/>
-</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="sump.c" tooltip="takologic/src/sump.c">
 <persistable path="/takologic/src/sump.c"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="usb_mem.c" tooltip="usb_cdc_lib/usb-fs/src/usb_mem.c">
-<persistable path="/usb_cdc_lib/usb-fs/src/usb_mem.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="dma.h" tooltip="takologic/inc/dma.h">
+<persistable path="/takologic/inc/dma.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="usb_prop.c" tooltip="usb_cdc_lib/usb_cdc/src/usb_prop.c">
-<persistable path="/usb_cdc_lib/usb_cdc/src/usb_prop.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.h" tooltip="takologic/inc/main.h">
+<persistable path="/takologic/inc/main.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="hw_config.c" tooltip="usb_cdc_lib/usb_cdc/src/hw_config.c">
-<persistable path="/usb_cdc_lib/usb_cdc/src/hw_config.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" tooltip="takologic/src/main.c">
+<persistable path="/takologic/src/main.c"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" tooltip="usb_cdc_lib/main.c">
-<persistable path="/usb_cdc_lib/main.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="uart.h" tooltip="takologic/inc/uart.h">
+<persistable path="/takologic/inc/uart.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="usb_endp.c" tooltip="usb_cdc/src/usb_endp.c">
-<persistable path="/usb_cdc/src/usb_endp.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="stm32f10x_conf.h" tooltip="test_ram/cmsis_boot/stm32f10x_conf.h">
+<persistable path="/test_ram/cmsis_boot/stm32f10x_conf.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="usb_istr.c" tooltip="usb_cdc/src/usb_istr.c">
-<persistable path="/usb_cdc/src/usb_istr.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" tooltip="test_ram/main.c">
+<persistable path="/test_ram/main.c"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="hw_config.c" tooltip="usb_cdc/src/hw_config.c">
-<persistable path="/usb_cdc/src/hw_config.c"/>
+<file factoryID="org.coocox.component.ui.editors.repository.RepositoryElementFactory" id="org.coocox.builder.ui.editors.repository.RepositoryBrowser" name="Repository" tooltip="Repository">
+<persistable>&#x0A;<subPage/>
+</persistable>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="hw_config.c" tooltip="usb_cdc/src/hw_config.c">
-<persistable path="/usb_cdc/src/hw_config.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="sump.h" tooltip="takologic/inc/sump.h">
+<persistable path="/takologic/inc/sump.h"/>
 </file>
 </mruList>
 </workbench>
